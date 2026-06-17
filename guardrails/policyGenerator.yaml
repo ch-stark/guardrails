@@ -1,0 +1,25 @@
+kind: PolicyGenerator
+metadata:
+  name: operator-guardrails
+policyDefaults:
+  namespace: policies
+  categories:
+    - CM Configuration Management
+  controls:
+    - CM-2 Baseline Configuration
+  remediationAction: enforce
+  severity: medium
+  policySets:
+    - operator-guardrails
+  standards:
+    - NIST SP 800-53
+policies:
+  - name: enforce-operator-guardrails
+    manifests:
+      - path: input/auditexistingoperators
+policySets:
+  - description: operator-guardrails
+    name: operator-guardrails
+    placement:
+      placementPath: placement.yaml
+
