@@ -1,3 +1,4 @@
+---
 # 1. operator-allowlist ConfigMap
 apiVersion: v1
 kind: ConfigMap

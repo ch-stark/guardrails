@@ -1,11 +1,5 @@
+---
 # 3. Validating Admission Policy (VAP) - ENFORCE
-apiVersion: policy.open-cluster-management.io/v1
-kind: ConfigurationPolicy
-metadata:
-  name: operator-guardrails-vap
-spec:
-  remediationAction: enforce
-  severity: high
   object-templates-raw: |
     {{hub- /* Read the allowlist and denylist ConfigMaps from the Hub */ -}}
     {{hub- $allowlist := fromConfigMap "policies" "operator-allowlist" "packages" | default "" hub}}

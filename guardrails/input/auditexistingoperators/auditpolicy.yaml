@@ -1,3 +1,4 @@
+---
 # 4. Audit Existing Operators Policy - INFORM
   object-templates-raw: |
     {{hub- /* 1. Fetch the lists from the Hub */ -}}
