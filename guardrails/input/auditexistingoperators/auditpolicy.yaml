@@ -1,11 +1,4 @@
 # 4. Audit Existing Operators Policy - INFORM
-apiVersion: policy.open-cluster-management.io/v1
-kind: ConfigurationPolicy
-metadata:
-  name: audit-existing-operators
-spec:
-  remediationAction: inform
-  severity: high
   object-templates-raw: |
     {{hub- /* 1. Fetch the lists from the Hub */ -}}
     {{hub- $allowlist := fromConfigMap "policies" "operator-allowlist" "packages" | default "" hub}}
