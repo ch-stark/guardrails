@@ -1,49 +1,50 @@
 ---
 # 3. Validating Admission Policy (VAP) - ENFORCE
-  object-templates-raw: |
-    {{hub- /* Read the allowlist and denylist ConfigMaps from the Hub */ -}}
-    {{hub- $allowlist := fromConfigMap "policies" "operator-allowlist" "packages" | default "" hub}}
-    {{hub- $denylist := fromConfigMap "policies" "operator-denylist" "packages" | default "" hub}}
-    
-    - complianceType: musthave
-      objectDefinition:
-        apiVersion: admissionregistration.k8s.io/v1
-        kind: ValidatingAdmissionPolicy
-        metadata:
-          name: operator-guardrails-vap
-        spec:
-          failurePolicy: Fail
-          matchConstraints:
-            resourceRules:
-            - apiGroups: ["operators.coreos.com"]
-              apiVersions: ["v1alpha1"]
-              operations: ["CREATE", "UPDATE"]
-              resources: ["subscriptions"]
-          matchConditions:
-          - name: has-spec-name
-            expression: "has(object.spec) && has(object.spec.name)"
-          variables:
-          - name: operatorName
-            expression: "object.spec.name"
-          # Dynamically inject the Hub lists into the CEL expression
-          - name: allowedPackages
-            expression: "'{{hub $allowlist hub}}'.split(',')"
-          - name: deniedPackages
-            expression: "'{{hub $denylist hub}}'.split(',')"
-          validations:
-          # Default Deny Logic: Must be IN allowlist AND NOT IN denylist
-          - expression: "variables.allowedPackages.exists(p, p.trim() == variables.operatorName) && !variables.deniedPackages.exists(p, p.trim() == variables.operatorName)"
-            messageExpression: "'The operator \"' + variables.operatorName + '\" is either not on the allowlist or is explicitly denied.'"
-    
-    - complianceType: musthave
-      objectDefinition:
-        apiVersion: admissionregistration.k8s.io/v1
-        kind: ValidatingAdmissionPolicyBinding
-        metadata:
-          name: operator-guardrails-vap-binding
-        spec:
-          policyName: operator-guardrails-vap
-          validationActions: ["Deny"]
-          matchResources:
-            namespaceSelector: {}
+object-templates-raw: |
+  {{hub- /* Read the allowlist and denylist ConfigMaps from the Hub */ -}}
+  {{hub- $allowlist := fromConfigMap "policies" "operator-allowlist" "packages" | default "" hub}}
+  {{hub- $denylist := fromConfigMap "policies" "operator-denylist" "packages" | default "" hub}}
+  
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: admissionregistration.k8s.io/v1
+      kind: ValidatingAdmissionPolicy
+      metadata:
+        name: operator-guardrails-vap
+      spec:
+        failurePolicy: Fail
+        matchConstraints:
+          resourceRules:
+          - apiGroups: ["operators.coreos.com"]
+            apiVersions: ["v1alpha1"]
+            operations: ["CREATE", "UPDATE"]
+            resources: ["subscriptions"]
+        matchConditions:
+        - name: has-spec-name
+          expression: "has(object.spec) && has(object.spec.name)"
+        variables:
+        - name: operatorName
+          expression: "object.spec.name"
+        # Dynamically inject the Hub lists into the CEL expression
+        - name: allowedPackages
+          expression: "'{{hub $allowlist hub}}'.split(',')"
+        - name: deniedPackages
+          expression: "'{{hub $denylist hub}}'.split(',')"
+        validations:
+        # Default Deny Logic: Must be IN allowlist AND NOT IN denylist
+        - expression: "variables.allowedPackages.exists(p, p.trim() == variables.operatorName) && !variables.deniedPackages.exists(p, p.trim() == variables.operatorName)"
+          messageExpression: "'The operator \"' + variables.operatorName + '\" is either not on the allowlist or is explicitly denied.'"
+  
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: admissionregistration.k8s.io/v1
+      kind: ValidatingAdmissionPolicyBinding
+      metadata:
+        name: operator-guardrails-vap-binding
+      spec:
+        policyName: operator-guardrails-vap
+        validationActions: ["Deny"]
+        matchResources:
+          namespaceSelector: {}
 ---
+
