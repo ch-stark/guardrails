@@ -2,6 +2,9 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
   name: operator-guardrails
+# Add an explicit placement binding name to use rather than rely on the default
+placementBindingDefaults:
+  name: "operator-guardrails-binding" 
 policyDefaults:
   namespace: policies
   categories:
@@ -23,4 +26,3 @@ policySets:
     name: operator-guardrails
     placement:
       placementPath: placement.yaml
-
