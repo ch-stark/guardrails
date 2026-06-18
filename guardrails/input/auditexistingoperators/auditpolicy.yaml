@@ -1,7 +1,7 @@
 ---
 # 4. Audit Existing Operators Policy - INFORM
 object-templates-raw: |
-  {{hub- /* 1. Fetch the lists from the Hub */ hub}}
+  {{- /* 1. Fetch the lists from the Hub */ -}}
   {{hub- $allowlist := fromConfigMap "policies" "operator-allowlist" "packages" | default "" hub}}
   {{hub- $denylist := fromConfigMap "policies" "operator-denylist" "packages" | default "" hub}}
   
