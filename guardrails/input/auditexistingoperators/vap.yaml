@@ -42,6 +42,6 @@ object-templates-raw: |
         name: operator-guardrails-vap-binding
       spec:
         policyName: operator-guardrails-vap
-        validationActions: ["Deny"]
+        validationActions: ["Audit"]
         matchResources:
           namespaceSelector: {}
