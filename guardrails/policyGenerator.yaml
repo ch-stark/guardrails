@@ -21,12 +21,16 @@ policyDefaults:
   policySets:
     - operator-guardrails
 policies:
-  - name: audit-operator-guardrails
-    # ...but we EXPLICITLY override it to inform here to protect the audit policy
+  # This policy explicitly uses 'inform' to protect the audit policy
+  - name: audit-operator-guardrails-inform
     remediationAction: inform 
     manifests:
-      # Added .yaml extension assuming this is your single combined manifest file
       - path: input/auditexistingoperators/auditpolicy.yaml
+
+  # This policy can enforce the supporting configurations
+  - name: audit-operator-guardrails-enforce
+    remediationAction: enforce
+    manifests:
       - path: input/auditexistingoperators/configmaps.yaml
       - path: input/auditexistingoperators/vap.yaml
 policySets:
