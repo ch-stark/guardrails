@@ -11,7 +11,7 @@ object-templates-raw: |
       metadata:
         name: operator-guardrails-vap
       spec:
-        failurePolicy: Fail
+        failurePolicy: Ignore
         matchConstraints:
           resourceRules:
           - apiGroups: ["operators.coreos.com"]
