@@ -8,7 +8,6 @@ placementBindingDefaults:
 policyDefaults:
   namespace: policies
   # Ensures ConfigMaps are created before the policy templates that look them up
-  orderManifests: true 
   consolidateManifests: false
   categories:
     - CM Configuration Management
