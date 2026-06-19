@@ -27,7 +27,7 @@ guardrails-main/
 
 ## File Breakdown
 
-### 1. **policyGenerator.yaml** (41 lines)
+### 1. **policyGenerator.yaml** 
 **Purpose**: Central PolicyGenerator manifest that drives all policy generation
 
 **Key Elements**:
