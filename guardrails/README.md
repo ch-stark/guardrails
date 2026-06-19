@@ -1,6 +1,4 @@
- Operator Guardrails
-
-##  Summary
+## Operator Guardrails
 
 **Name**: Operator Guardrails for OpenShift  
 **Type**: RHACM PolicySet Implementation  
